@@ -1,5 +1,6 @@
 package mx.unam.algebraLineal;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import static java.awt.Frame.E_RESIZE_CURSOR;
 import java.awt.HeadlessException;
@@ -21,86 +22,80 @@ public class ProgramEncrip extends JFrame {
     private JLabel lblEtiqueta2;
     private JButton botonEncriptar;
     private JButton botonDesencriptar;
-    private JButton botonCerrar;
     private JButton botonIntroducirMatriz;
     private ProgramEncrip print;
-    
+    private ProgramEncrip print2;
+    private int[] matriz;
+    private Matrices met;
+    private JLabel nuevo;
+
     public ProgramEncrip() throws HeadlessException {
         super("INDEX");
         this.setSize(300, 150);
         setLayout(new FlowLayout());
-        lblEtiqueta1 = new JLabel("¿Que deseas hacer?");
+        this.getContentPane().setBackground(new Color(211, 237, 248));
+        lblEtiqueta1 = new JLabel("¿Que desea hacer?");
         this.getContentPane().add(lblEtiqueta1);
         botonEncriptar = new JButton("Encriptar");
         this.getContentPane().add(botonEncriptar);
         botonDesencriptar = new JButton("Desencriptar");
         this.getContentPane().add(botonDesencriptar);
-        botonCerrar = new JButton("Cerrar");
-        this.getContentPane().add(botonCerrar);
-        
+
         botonEncriptar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 print = new ProgramEncrip("Encriptar");
-                
+
             }
         });
-        
+
         botonDesencriptar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                print = new ProgramEncrip("Encriptar");
+                print = new ProgramEncrip("Desencriptar");
                 
             }
         });
-        
-        botonCerrar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                
-            }
-        });
-        
+
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
-     public ProgramEncrip(String title) throws HeadlessException {
-        super("INDEX");
+
+    public ProgramEncrip(String title) throws HeadlessException {
+        super(title);
         this.setSize(300, 200);
         setLayout(new FlowLayout());
+        this.getContentPane().setBackground(new Color(199, 178, 203));
         lblEtiqueta1 = new JLabel("Escribe el codigo:");
         this.getContentPane().add(lblEtiqueta1);
-
-        KeyListener escuchaTeclado = new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                lblEtiqueta2.setText(txtEmisor.getText());
-                char[] digitos = txtEmisor.getText().toCharArray();
-                for (int i = 0; i < txtEmisor.getText().length(); i++) {
-                    if (digitos[0] == '1' || digitos[0] == '2' || digitos[0] == '3' || digitos[0] == '4' || digitos[0] == '5' || digitos[0] == '6' || digitos[0] == '7' || digitos[0] == '8' || digitos[0] == '9' || digitos[0] == '0') {
-                    } else {
-                        txtReceptor.setText("Por favor solo escriba numeros");
-                    }
-                }
-            }
-        };
         txtEmisor = new JTextField(25);
-        txtEmisor.addKeyListener(escuchaTeclado);
         this.getContentPane().add(txtEmisor);
-        lblEtiqueta2 = new JLabel("Aqui se mostrara lo que escribas");
+        lblEtiqueta2 = new JLabel("Aqui se mostrara tu matriz encriptada:");
         this.getContentPane().add(lblEtiqueta2);
-        txtReceptor = new JTextField(20);
+        txtReceptor = new JTextField(25);
         this.getContentPane().add(txtReceptor);
+        botonEncriptar = new JButton("Encriptar");
+        this.getContentPane().add(botonEncriptar);
+        botonIntroducirMatriz = new JButton("Cambiar la matriz");
+        this.getContentPane().add(botonIntroducirMatriz);
+        nuevo = new JLabel("Hola");
+        this.getContentPane().add(nuevo);
+        botonEncriptar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                met.setCodigo(txtEmisor.getText());
+                nuevo.setText(Arrays.toString(met.convertANum()));
+                
+            }
+        });
+
+        botonIntroducirMatriz.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PintarPanel.PanelChico("Matrices");
+            }
+        });
+
         this.setVisible(true);
         this.setDefaultCloseOperation(E_RESIZE_CURSOR);
     }
